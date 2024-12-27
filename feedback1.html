@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Feedback Form</title>
+    <style>
+      /* Base Styles (applies to all devices) */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      h2 {
+        text-align: center;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+      textarea {
+        height: 100px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+
+      /* Responsive Styles (for smaller screens) */
+      @media (max-width: 768px) {
+        .container {
+          width: 80%; /* Make the form take up more space on smaller screens */
+          padding: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          width: 90%; /* Full width on very small screens like phones */
+          padding: 10px;
+        }
+        button {
+          width: 100%; /* Make the button take full width on small screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Student Feedback Form</h2>
+      <form id="feedbackForm">
+        <!-- Course Feedback -->
+        <div class="form-group">
+          <label for="courseFeedback">How would you rate the course?</label>
+          <select id="courseFeedback" required>
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Average">Average</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </div>
+        <!-- Transport Feedback -->
+        <div class="form-group">
+          <label for="transportFeedback"
+            >How would you rate the transport services?</label
+          >
+          <select id="transportFeedback" required>
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Average">Average</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </div>
+        <!-- Hostel Feedback -->
+        <div class="form-group">
+          <label for="hostelFeedback"
+            >How would you rate the hostel services?</label
+          >
+          <select id="hostelFeedback" required>
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Average">Average</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </div>
+        <!-- Additional Comments -->
+        <div class="form-group">
+          <label for="comments">Additional Comments</label>
+          <textarea id="comments"></textarea>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <script>
+      // Initialize EmailJS with your public key
+      emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS User ID
+
+      document
+        .getElementById("feedbackForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Collect data from the form
+          const courseFeedback =
+            document.getElementById("courseFeedback").value;
+          const transportFeedback =
+            document.getElementById("transportFeedback").value;
+          const hostelFeedback =
+            document.getElementById("hostelFeedback").value;
+          const comments = document.getElementById("comments").value;
+
+          // Create a payload to send in the email
+          const templateParams = {
+            course_feedback: courseFeedback,
+            transport_feedback: transportFeedback,
+            hostel_feedback: hostelFeedback,
+            additional_comments: comments,
+            to_email: "YOUR_EMAIL_ID@example.com", // Replace with your email address
+          };
+
+          // Send the feedback via EmailJS
+          emailjs
+            .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+            .then(
+              function (response) {
+                alert("Feedback submitted successfully!");
+                document.getElementById("feedbackForm").reset(); // Reset the form
+              },
+              function (error) {
+                alert("Failed to submit feedback. Please try again.");
+              }
+            );
+        });
+    </script>
+  </body>
+</html>
